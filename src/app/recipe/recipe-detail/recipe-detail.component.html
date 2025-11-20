@@ -1,23 +1,57 @@
-<div class="recipe-detail">
-  <h2>{{ recipe.nombre }}</h2>
-  <img
-    class="recipe-detail-img"
-    [src]="recipe.imagen"
-    alt="{{ recipe.imagen }}"
-  />
-  <p><strong>Porciones:</strong> {{ recipe.porciones }}</p>
-  <p><strong>Tiempo:</strong> {{ recipe.tiempo_minutos }} min</p>
-  <h3>Ingredientes</h3>
-  <app-ingredient-list
-    [ingredients]="recipe.ingredientes"
-  ></app-ingredient-list>
+<!-- Contenedor con fondo rosado para toda la vista de detalle. -->
+<div class="recipe-detail-wrapper py-5">
+  <div class="container">
+    <div *ngIf="loading" class="text-center">Cargando receta...</div>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
 
-  <h3>Pasos</h3>
-  <ol>
-    @for(step of recipe.pasos; track step){
-    <li>
-      {{ step }}
-    </li>
-    }
-  </ol>
+    <!-- Header del detalle: texto en la parte superior del detalle -->
+    <div class="detail-header text-center mb-3">Recetas Uniandes</div>
+
+    <!-- Cuando hay receta, mostramos un cuadro blanco centrado sobre el fondo rosado.
+         El cuadro blanco contiene la imagen arriba y la información abajo (texto debajo de la imagen). -->
+    <ng-container *ngIf="!loading && recipe; else noRecipe">
+      <div class="detail-center">
+        <div class="detail-card mx-auto">
+          <!-- Nombre de la receta colocado encima de la foto (en la columna izquierda). -->
+          <div class="detail-left">
+            <div class="detail-name text-center mb-2"><h2>{{ recipe.nombre }}</h2></div>
+            <div class="detail-image-wrap">
+              <img *ngIf="recipe.imagen" [src]="recipe.imagen" [alt]="recipe.nombre" class="detail-img" />
+            </div>
+            <div class="p-3 text-center">
+              <!-- Botón 'Regresar' centrado debajo de la imagen. -->
+              <button class="btn btn-navy btn-regresar" (click)="goBack()">Regresar</button>
+            </div>
+          </div>
+
+          <!-- Columna derecha: aquí colocamos un grid 2x2 con las 4 estadísticas
+               (Porciones, Tiempo, Dificultad, Tipo) y luego los ingredientes/pasos. -->
+          <div class="detail-right">
+            <div class="p-4">
+              <!-- Grid de estadísticas 2x2 -->
+              <!-- Grid de estadísticas 2x2: mostramos label en negrilla y valor normal dentro de cada cuadro -->
+              <div class="stats-grid mb-3">
+                <div class="stat-box"><strong>Porciones:</strong><div class="stat-val">{{ recipe.porciones }}</div></div>
+                <div class="stat-box"><strong>Tiempo:</strong><div class="stat-val">{{ recipe.tiempo_minutos }} min</div></div>
+                <div class="stat-box"><strong>Dificultad:</strong><div class="stat-val">{{ recipe.dificultad }}</div></div>
+                <div class="stat-box"><strong>Tipo:</strong><div class="stat-val">{{ recipe.tipo }}</div></div>
+              </div>
+
+              <h5 class="mt-2">Ingredientes: {{ mostUsedIngredient }}</h5>
+              <app-ingredient-list [ingredients]="recipe.ingredientes"></app-ingredient-list>
+
+              <h5 class="mt-3">Pasos</h5>
+              <ol>
+                <li *ngFor="let step of recipe.pasos">{{ step }}</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #noRecipe>
+      <div class="alert alert-info">Seleccione una receta para ver el detalle.</div>
+    </ng-template>
+  </div>
 </div>

@@ -1,11 +1,9 @@
-<ul>
-  @for (ingredient of ingredients; track ingredient.nombre){
-
-  <li>
-    <span>{{ ingredient.nombre }}</span>
-    @if (ingredient.cantidad) {
-    <span> - {{ ingredient.cantidad }} {{ ingredient.unidad }}</span>
-    }
+<!-- Lista de ingredientes recibida desde el componente padre vía `@Input()` -->
+<ul class="list-group">
+  <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let ingredient of ingredients">
+    <span>
+      {{ formatName(ingredient.nombre) }}
+      <ng-container *ngIf="formatQuantity(ingredient) as q"> {{ q }}</ng-container>
+    </span>
   </li>
-  }
 </ul>

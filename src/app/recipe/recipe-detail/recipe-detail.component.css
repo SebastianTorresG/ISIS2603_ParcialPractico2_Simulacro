@@ -1,3 +1,126 @@
-img.recipe-detail-img {
-  max-width: 500px;
+/* Estilos para la vista de detalle de receta.
+   - `recipe-detail-wrapper`: fondo rosado para toda la pantalla.
+   - `detail-card`: cuadro blanco rectangular centrado dentro del fondo rosado.
+   - `detail-left` y `detail-right`: columnas para imagen y contenido.
+   - Reutilizamos `.btn-navy` para mantener el mismo estilo de botón. */
+
+.recipe-detail-wrapper {
+  background: #ffdce6; /* fondo rosado suave */
+  min-height: 100vh;
+}
+
+/* Header del detalle: se muestra dentro de la vista detalle y debe ser
+   rosado, grande y en negrilla según la petición del usuario. */
+.detail-header {
+  background: #ffdce6; /* mismo rosado que el fondo para continuidad */
+  color: #000000; /* texto en negro y en negrilla */
+  font-weight: 800; /* negrilla pronunciada */
+  font-size: 2.4rem; /* tamaño grande */
+  padding: 1.2rem 0 0.6rem 0; /* espacio arriba/abajo para destacar el header */
+  text-align: center;
+}
+
+.detail-card {
+  background: #ffffff; /* cuadro blanco */
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  overflow: hidden;
+  max-width: 1000px;
+  width: 100%;
+  display: flex;
+  /* Por defecto colocamos imagen y contenido lado a lado (imagen izquierda,
+     contenido derecha). En pantallas muy pequeñas (max-width:575px) volvemos
+     a columna para mejorar legibilidad. */
+  flex-direction: row;
+  flex-wrap: nowrap !important; /* evitar que los hijos se envuelvan */
+  align-items: center; /* centrar verticalmente los contenidos de las columnas */
+  padding: 12px; /* padding unificado aquí para evitar selector duplicado */
+  box-sizing: border-box;
+}
+
+/* Contenedor que centra el cuadro blanco dentro de la vista (debajo del header).
+   Usamos min-height para dejar espacio suficiente y flexbox para centrar tanto
+   vertical como horizontalmente. Ajusta el valor de calc() si tu header es más grande. */
+.detail-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 180px); /* espacio restante bajo el header */
+  padding: 1rem 0 2.5rem;
+  box-sizing: border-box;
+}
+
+
+.detail-image-wrap {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: #ffdce6; /* detrás de la imagen queda rosado (coherente con el diseño) */
+  width: 100%;
+  height: 100%;
+}
+
+.detail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display:block;
+}
+
+/* En layout en fila, asignamos proporciones para que la imagen ocupe
+   aproximadamente 40% y el contenido 60% del ancho del cuadro. */
+.detail-left { flex: 0 0 40% !important; min-width: 40% !important; display:flex; flex-direction:column; align-items:center; }
+.detail-right { flex: 1 1 60% !important; min-width: 60% !important; display:flex; flex-direction:column; justify-content:center; }
+
+/* En móviles muy pequeños apilamos la imagen sobre el texto para evitar
+   que el contenido quede demasiado comprimido. */
+@media (max-width: 575px) {
+  .detail-card { flex-direction: column; }
+  .detail-left, .detail-right { width: 100%; flex: none; }
+  .detail-image-wrap { height: 260px; }
+}
+
+/* Ajustes de espaciado y grid para la columna derecha (stats) y para dar
+  separación entre el texto/la imagen y el borde del recuadro blanco. */
+.detail-name h2 { margin: 0 0 8px 0; font-size: 1.6rem; font-weight: 800; text-align:center; }
+.btn-regresar { display: block; width: 140px; margin: 12px auto 0; }
+.detail-right .stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.stat-box {
+  background: transparent; /* dejar transparente en lugar de gris/rosado */
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* mantener label y valor cercanos */
+}
+.stat-box strong { font-weight: 800; margin: 0; }
+.stat-val { margin: 0 0 0 8px; font-weight: 400; display: inline-block; }
+
+/* Aumentar el padding interno del recuadro blanco para dejar espacio
+   entre sus esquinas y el contenido (imagen y texto). */
+.detail-card > .detail-left, .detail-card > .detail-right { padding: 8px; }
+
+/* Estilo para las líneas Porciones y #ingredientes en el detalle: etiqueta en negrilla, valor normal y fondo transparente */
+.detail-meta { margin: 4px 0; background: transparent; font-weight: 400; }
+.detail-meta strong { font-weight: 800; }
+
+/* Estilo para la línea que muestra el ingrediente más usado */
+/* Removed separate .most-used block - most used ingredient is now shown inline in the H5 heading. */
+
+
+/* Botón: color más claro y esquinas menos redondeadas según petición. */
+.btn-navy {
+  background-color: #3b7bd3; /* azul más claro */
+  color: #ffffff;
+  border: none;
+  border-radius: 8px; /* menos redondeado */
+}
+
+.btn-navy:hover, .btn-navy:focus {
+  background-color: #3469b8;
 }

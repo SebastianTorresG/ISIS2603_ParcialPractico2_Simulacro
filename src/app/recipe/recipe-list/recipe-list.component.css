@@ -1,12 +1,138 @@
-img.recipe-img {
-  max-width: 250px;
+/* Estilos específicos para la vista de listados de recetas.
+   - `recipe-list-wrapper`: fondo rosado general solicitado.
+   - `recipe-card`: tarjeta vertical rectangular con sombra y esquinas redondeadas.
+   - `recipe-image-wrap` y `recipe-img`: fuerza un alto fijo para imágenes verticales
+     y usa object-fit para que se recorten adecuadamente.
+   - `btn-navy`: botón azul marino con texto blanco y esquinas redondeadas. */
+
+.recipe-list-wrapper {
+  background: #ffdce6; /* fondo rosado suave */
+  min-height: 100vh;
 }
 
-tr:hover {
-  background-color: pink;
-  cursor: pointer;
+.recipe-list-wrapper .container {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
 }
 
-thead {
-  background-color: palevioletred;
+/* Contenedor centrado que limita el ancho y asegura que no haya franja blanca
+   superior: la página principal es completamente rosada por detrás de los
+   cuadros blancos. */
+.recipe-content { max-width: 1200px; margin-left: auto; margin-right: auto; margin-top: 0; }
+
+/* Header de la página principal (home) */
+.home-header {
+  text-align: center;
+  color: #000000; /* negro */
+  font-size: 2.4rem; /* tamaño grande */
+  font-weight: 800; /* negrilla pronunciada */
+  padding: 1.2rem 0 0.6rem 0; /* espacio superior e inferior */
 }
+
+
+/* Fuerza que las tarjetas sean rectángulos verticales: la altura será
+   mayor que el ancho. `recipe-card` tiene una altura fija; la imagen ocupa
+   la porción superior y el cuerpo blanco la inferior. Esto asegura que
+   la 'parte larga' sea la altura y que las tarjetas mantengan la misma
+   proporción en la cuadrícula de 4 columnas. */
+.recipe-card {
+  background: transparent; /* la tarjeta en sí usa body blanco dentro */
+  border: none;
+  min-height: 420px; /* altura mínima para mantener la forma vertical */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* evitar que el contenido de la tarjeta sobresalga y solape filas */
+  flex: 1 1 auto; /* permitir crecimiento dentro del item */
+}
+
+/* Usar flex para dividir la tarjeta: la imagen ocupa una proporción
+   y el cuerpo el resto; esto mantiene el botón dentro del cuadro blanco. */
+.recipe-image-wrap {
+  flex: 0 0 55%; /* reducir ligeramente para dar más espacio al cuerpo y al botón */
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffdce6; /* fondo rosado detrás de la imagen */
+}
+
+.recipe-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* recorta la imagen para llenar el área */
+  display: block;
+}
+
+.recipe-card-body {
+  background: #ffffff; /* cuadro blanco dentro de fondo rosado */
+  padding: 0.9rem;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto; /* ocupa el espacio restante y mantiene el botón dentro */
+  box-sizing: border-box;
+}
+
+/* Asegurar que las líneas de texto como 'Porciones' y '#ingredientes' no tengan
+   fondo coloreado y que el label (strong) esté en negrilla mientras que el valor
+   se mantenga con peso normal. */
+/* Reverted: per user request these styles are removed from the Home list. */
+
+/* Grid propio para asegurar 4 columnas en pantallas medianas en adelante.
+   Esto evita dependencias estrictas de Bootstrap y previene que las tarjetas
+   se apilen verticalmente si el CSS de Bootstrap falla o no carga. */
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  align-items: start; /* asegurar que los items se alineen arriba y no centren/solapen */
+  align-content: start; /* impedir que el contenido de la grid se distribuya de forma que solape filas */
+  grid-auto-rows: auto; /* que cada fila se ajuste a la altura de su contenido */
+}
+
+/* En pantallas md+ (>=768px) usamos 4 columnas para cumplir la petición. */
+@media (min-width: 768px) {
+  .recipe-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.recipe-item {
+  display: flex;
+  flex-direction: column; /* asegurar que la tarjeta ocupe el alto disponible y use su propio flujo */
+  flex: 1 1 auto;
+  align-self: start; /* asegurar que cada item empiece desde arriba y no se solape con la fila anterior */
+}
+
+.btn-navy {
+  background-color: #3b7bd3; /* azul más claro */
+  color: #ffffff;
+  border: none;
+  border-radius: 8px; /* menos redondeado */
+  padding: 0.5rem 1rem;
+}
+
+.btn-navy:active, .btn-navy:focus, .btn-navy:hover {
+  background-color: #3469b8;
+  color: #fff;
+}
+
+/* Etiquetas mostradas como lista de texto (formato Word). */
+.tag-word-list {
+  margin-top: 0.25rem;
+  margin-bottom: 0.45rem;
+  padding-left: 1.05rem; /* espacio para el bullet */
+  color: #333333;
+  font-size: 0.92rem;
+}
+
+.tag-word-list li {
+  margin: 0 0 0.18rem 0;
+  padding: 0;
+  list-style: disc;
+}
+
+/* Nota: el selector .recipe-card ya está definido arriba y ahora permite
+  overflow visible para evitar que el botón se corte. */

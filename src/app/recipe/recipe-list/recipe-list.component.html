@@ -1,35 +1,52 @@
-<div>
-  <div>
-    @if (selected) {
-    <div *ngIf="selected">
-      <app-recipe-detail [recipe]="selectedRecipe"></app-recipe-detail>
+<!-- Wrapper con fondo rosado para cumplir el diseño solicitado. -->
+<div class="recipe-list-wrapper">
+  <!-- Header principal para la Home: centrado, grande y en negrilla (Recetas Uniandes).
+    Se dejó dentro del wrapper rosado para que aparezca sobre el fondo rosado. -->
+  <div class="home-header">Recetas Uniandes</div>
+  <!-- Se removió la franja blanca: ahora la página principal es totalmente rosada
+    salvo los cuadros blancos de cada tarjeta, según la petición del usuario. -->
+  <!-- Contenedor centralizado que mantiene el grid centrado en la página. -->
+  <div class="container recipe-content">
+    <div *ngIf="loading" class="text-center">Cargando recetas...</div>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+    <!-- Grid de tarjetas verticales: cada tarjeta es un rectángulo vertical
+         con imagen en la parte superior y contenido en blanco. El botón
+         usa la clase `btn-navy` definida en el CSS para obtener fondo
+         azul marino, texto blanco y esquinas redondeadas. -->
+    <!-- Usamos una cuadrícula CSS propia como fallback estable: 2 columnas en
+         móviles y 4 columnas en pantallas medianas+; esto evita que las tarjetas
+         se apilen si Bootstrap no está disponible. -->
+    <div *ngIf="!loading && recipes.length; else noRecipes" class="recipe-grid">
+      <div class="recipe-item" *ngFor="let recipe of recipes">
+        <div class="recipe-card h-100 d-flex flex-column">
+          <!-- Contenedor de imagen con alto fijo para tarjetas verticales. -->
+          <div class="recipe-image-wrap">
+            <img *ngIf="recipe.imagen" [src]="recipe.imagen" [alt]="recipe.nombre" class="recipe-img" />
+          </div>
+
+          <!-- Cuerpo blanco dentro de la tarjeta donde va la información. -->
+          <div class="recipe-card-body d-flex flex-column">
+            <h5 class="card-title">{{ recipe.nombre }}</h5>
+            <!-- Mostrar las etiquetas en formato de lista (como en Word) debajo del nombre -->
+            <ul class="tag-word-list" *ngIf="recipe.etiquetas && recipe.etiquetas.length">
+              <li *ngFor="let tag of recipe.etiquetas">{{ tag }}</li>
+            </ul>
+            <p class="card-text mb-1"><strong>Porciones:</strong> {{ recipe.porciones }}</p>
+            <!-- Mostrar la cantidad de ingredientes calculada -->
+            <p class="card-text mb-1"><strong>#ingredientes:</strong> {{ recipe.ingredientes.length || 0 }}</p>
+            <!-- 'Tiempo' eliminado visualmente según solicitud del usuario. -->
+            <div class="mt-auto">
+              <!-- Botón azul marino con texto blanco y esquinas redondeadas. -->
+              <button class="btn btn-navy w-100" (click)="onSelect(recipe)">Ver receta</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    }
-    <table>
-      <thead>
-        <tr>
-          <th>Receta</th>
-          <th>Imagen</th>
-          <th>Porciones</th>
-          <th>Tiempo</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for(recipe of recipes; track recipe.id){
-        <tr (click)="onSelect(recipe)">
-          <td>{{ recipe.nombre }}</td>
-          <td>
-            <img
-              class="recipe-img"
-              [src]="recipe.imagen"
-              alt="{{ recipe.imagen }}"
-            />
-          </td>
-          <td>{{ recipe.porciones }}</td>
-          <td>{{ recipe.tiempo_minutos }} min</td>
-        </tr>
-        }
-      </tbody>
-    </table>
+
+    <ng-template #noRecipes>
+      <div class="alert alert-info">No hay recetas disponibles.</div>
+    </ng-template>
   </div>
 </div>

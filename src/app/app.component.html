@@ -1,2 +1,10 @@
-<h1>Recetas uniandes</h1>
-<app-recipe-list></app-recipe-list>
+<!-- Navbar principal: se mantiene la barra pero se quita el texto de marca
+	 en la esquina izquierda a petición del usuario. La navegación sigue
+	 funcionando a través de las rutas. -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+	<div class="container">
+		<!-- Marca eliminada: el espacio queda vacío para evitar el texto en la esquina -->
+	</div>
+</nav>
+<!-- El router outlet renderiza el componente correspondiente según la ruta -->
+<router-outlet></router-outlet>
