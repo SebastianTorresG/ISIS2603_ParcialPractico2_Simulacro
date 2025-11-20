@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Recipe } from '../Recipe';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -7,7 +8,9 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrl: './recipe-detail.component.css',
 })
 export class RecipeDetailComponent implements OnInit {
-  @Input() recipe: any;
+  // Receta pasada desde el componente padre (RecipeList) después de
+  // obtener el detalle remoto usando RecipeService.
+  @Input() recipe: Recipe | null = null;
 
   constructor() {}
   ngOnInit(): void {}
